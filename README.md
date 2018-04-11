@@ -1,4 +1,4 @@
-# Oracle-ZFSSA-Clienti - Oracle ZFS Storage RESTful API Connector
+# Oracle-ZFSSA-Client - Oracle ZFS Storage Appliance RESTful API Connector
 A Perl module for connecting to Oracle ZFS Storage Appliance RESTful API
 
 SYNOPSIS:
