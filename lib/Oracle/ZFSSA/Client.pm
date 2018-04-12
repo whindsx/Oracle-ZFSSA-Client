@@ -35,17 +35,20 @@ sub new {
                  'X-Auth-Key' => $self->{password}, 
                  'Content-Type' => 'application/json; charset=utf-8'];
    my $r = HTTP::Request->new('POST', $url, $header);
-   my $uas = LWP::UserAgent->new();
+   my $ua = LWP::UserAgent->new();
 
    if ($self->{debug} == 1) {
-      $uas->add_handler("request_send",  sub { shift->dump; return });
-      $uas->add_handler("response_done", sub { shift->dump; return });
+      $ua->add_handler("request_send",  sub { shift->dump; return });
+      $ua->add_handler("response_done", sub { shift->dump; return });
    }
 
    # Self signed Cert
-   $uas->ssl_opts( verify_hostname => 0,
+   $ua->ssl_opts( verify_hostname => 0,
                   SSL_verify_mode => 'SSL_VERIFY_NONE' );
-   my $res = $uas->request($r);
+   # We'll reuse this User Agent
+   $self->{ua} = $ua;
+
+   my $res = $ua->request($r);
 
    my $session = "";
    if ($res->code == HTTP_CREATED) {
@@ -71,16 +74,8 @@ sub call {
    my $url = $self->{url} . $uri; 
    my $header = ['X-Auth-Session' => $self->{session},'Content-Type' => 'application/json; charset=utf-8'];
    my $r = HTTP::Request->new($method, $url, $header);
-   my $ua = LWP::UserAgent->new();
 
-   if ($self->{debug} == 1) {
-      $ua->add_handler("request_send",  sub { shift->dump; return });
-      $ua->add_handler("response_done", sub { shift->dump; return });
-   }
-
-   # Self signed Cert
-   $ua->ssl_opts( verify_hostname => 0,
-                  SSL_verify_mode => 'SSL_VERIFY_NONE' );
+   my $ua = $self->{ua}; 
 
    my $res = $ua->request($r);
 
