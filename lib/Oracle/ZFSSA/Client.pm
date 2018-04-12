@@ -1,9 +1,16 @@
 package Oracle::ZFSSA::Client;
 
+use 5.008;
+
+use strict;
+use warnings;
+
 use LWP::UserAgent;
 
+our $VERSION = '0.01';
+
 # HTTP Return Codes
-use constant CREATED => '201';
+use HTTP::Status qw(:constants);
 
 sub new {
 
@@ -11,7 +18,7 @@ sub new {
 
    my %params = @_;
 
-   $self->{user} = $params{user};
+   my $self->{user} = $params{user};
    $self->{password} = $params{password};
    $self->{host} = $params{host};
    $self->{port} = $params{port};
@@ -41,7 +48,7 @@ sub new {
    my $res = $uas->request($r);
 
    my $session = "";
-   if ($res->status_line =~ CREATED) {
+   if ($res->code == HTTP_CREATED) {
       # All proceeding request should had this header set
       $session = $res->header('X-Auth-Session');
    } else {
