@@ -30,9 +30,9 @@ sub new {
    # Generate the first request and get a valid Session
    #
    $url = $url . '/api/access/v1';
-   
-   my $header = ['X-Auth-User' => $self->{user}, 
-                 'X-Auth-Key' => $self->{password}, 
+
+   my $header = ['X-Auth-User' => $self->{user},
+                 'X-Auth-Key' => $self->{password},
                  'Content-Type' => 'application/json; charset=utf-8'];
    my $r = HTTP::Request->new('POST', $url, $header);
    my $ua = LWP::UserAgent->new();
@@ -58,7 +58,7 @@ sub new {
       # You did not get a valid session
       die $res->status_line . ": Unable to get valid X-Auth-Session";
    }
-   # 
+   #
    # End Session Building
 
    $self->{session} = $session;
@@ -71,11 +71,11 @@ sub call {
 
    my ($self,$method,$uri) = @_;
 
-   my $url = $self->{url} . $uri; 
+   my $url = $self->{url} . $uri;
    my $header = ['X-Auth-Session' => $self->{session},'Content-Type' => 'application/json; charset=utf-8'];
    my $r = HTTP::Request->new($method, $url, $header);
 
-   my $ua = $self->{ua}; 
+   my $ua = $self->{ua};
 
    my $res = $ua->request($r);
 
@@ -91,7 +91,7 @@ sub call {
 
 =head1 NAME
 
-Oracle::ZFSSA::Client - Oracle ZFS Storage RESTful API Connector 
+Oracle::ZFSSA::Client - Oracle ZFS Storage RESTful API Connector
 
 =head1 SYNOPSIS
 
@@ -109,7 +109,7 @@ Oracle::ZFSSA::Client - Oracle ZFS Storage RESTful API Connector
 =head1 DESCRIPTION
 
 This Perl module provides a simplified means of connecting to and
-executing commands against an Oracle ZFSSA RESTful Application 
+executing commands against an Oracle ZFSSA RESTful Application
 Programming Interface.
 
 https://docs.oracle.com/cd/E51475_01/html/E52433/index.html
@@ -125,11 +125,11 @@ This method creates a new C<Oracle::ZFSSA::Client> and returns it.
    user                undef (Required)
    password            undef (Required)
    host                undef (Required)
-   port                215 
+   port                215
    verify_hostname     1
    debug               0
 
-verify_hostname - Disable SSL certificate verification. 
+verify_hostname - Disable SSL certificate verification.
 
 debug - Turns on raw HTTP request/response output from LWP::UserAgent.
 
