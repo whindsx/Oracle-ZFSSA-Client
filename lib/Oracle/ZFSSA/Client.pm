@@ -16,13 +16,17 @@ sub new {
 
    my $class = shift;
 
-   my %params = @_;
+   my %param = @_;
 
-   my $self->{user} = $params{user};
-   $self->{password} = $params{password};
-   $self->{host} = $params{host};
-   $self->{port} = $params{port};
-   $self->{debug} = $params{debug};
+   my $self->{user}  = delete $param{user};
+   $self->{password} = delete $param{password};
+   $self->{host}     = delete $param{host};
+   $self->{port}     = delete $param{port}      || 215;
+   $self->{debug}    = delete $param{debug}     || 0;
+
+   die "A user must be defined" if (!defined($self->{user}));
+   die "A password must be defined" if (!defined($self->{password}));
+   die "A host must be defined" if (!defined($self->{host}));
 
    my $url = $self->{host} . ":" . $self->{port};
    $self->{url} = $url;
