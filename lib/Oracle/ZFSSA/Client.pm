@@ -24,7 +24,11 @@ sub new {
    $self->{port}     = delete $param{port}      || 215;
    $self->{debug}    = delete $param{debug}     || 0;
 
-   $self->{verify_hostname} = 1 if ($param{verify_hostname} != 0);
+   if ($param{verify_hostname} != 0) {
+      $self->{verify_hostname} = 1;
+   } else {
+      $self->{verify_hostname} = 0;
+   }
 
    die "A user must be defined" if (!defined($self->{user}));
    die "A password must be defined" if (!defined($self->{password}));
