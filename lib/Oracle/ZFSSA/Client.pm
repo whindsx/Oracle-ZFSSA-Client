@@ -24,6 +24,8 @@ sub new {
    $self->{port}     = delete $param{port}      || 215;
    $self->{debug}    = delete $param{debug}     || 0;
 
+   $self->{verify_hostname} = 1 if ($param{verify_hostname} != 0);
+
    die "A user must be defined" if (!defined($self->{user}));
    die "A password must be defined" if (!defined($self->{password}));
    die "A host must be defined" if (!defined($self->{host}));
@@ -35,9 +37,9 @@ sub new {
    #
    $url = $url . '/api/access/v1';
 
-   my $header = ['X-Auth-User' => $self->{user},
-                 'X-Auth-Key' => $self->{password},
-                 'Content-Type' => 'application/json; charset=utf-8'];
+   my $header = ['X-Auth-User'   => $self->{user},
+                 'X-Auth-Key'    => $self->{password},
+                 'Content-Type'  => 'application/json; charset=utf-8'];
    my $r = HTTP::Request->new('POST', $url, $header);
    my $ua = LWP::UserAgent->new();
 
@@ -46,9 +48,12 @@ sub new {
       $ua->add_handler("response_done", sub { shift->dump; return });
    }
 
-   # Self signed Cert
-   $ua->ssl_opts( verify_hostname => 0,
-                  SSL_verify_mode => 'SSL_VERIFY_NONE' );
+   if ($self->{verify_hostname} == 0) {
+      # Self signed Cert
+      $ua->ssl_opts( verify_hostname => 0,
+                     SSL_verify_mode => 'SSL_VERIFY_NONE' );
+   }
+
    # We'll reuse this User Agent
    $self->{ua} = $ua;
 
@@ -76,7 +81,8 @@ sub call {
    my ($self,$method,$uri) = @_;
 
    my $url = $self->{url} . $uri;
-   my $header = ['X-Auth-Session' => $self->{session},'Content-Type' => 'application/json; charset=utf-8'];
+   my $header = ['X-Auth-Session'   => $self->{session},
+                 'Content-Type'     => 'application/json; charset=utf-8'];
    my $r = HTTP::Request->new($method, $url, $header);
 
    my $ua = $self->{ua};
