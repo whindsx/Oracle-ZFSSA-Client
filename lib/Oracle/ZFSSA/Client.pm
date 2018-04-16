@@ -25,7 +25,13 @@ sub new {
    $self->{port}     = delete $param{port}      || 215;
    $self->{debug}    = delete $param{debug}     || 0;
 
-   if ($param{verify_hostname} != 0) {
+   if (!defined($param{ssl}) || $param{ssl} != 0) {
+      $self->{ssl} = 1;
+   } else {
+      $self->{ssl} = 0;
+   }
+
+   if (!defined($param{verify_hostname}) || $param{verify_hostname} != 0) {
       $self->{verify_hostname} = 1;
    } else {
       $self->{verify_hostname} = 0;
@@ -36,6 +42,13 @@ sub new {
    die "A host must be defined" if (!defined($self->{host}));
 
    my $url = $self->{host} . ":" . $self->{port};
+
+   if ($self->{ssl}) {
+      $url = "https://" . $url;
+   } else {
+      $url = "http://" . $url;
+   }
+
    $self->{url} = $url;
 
    # Generate the first request and get a valid Session
@@ -95,7 +108,7 @@ sub call {
    my $res = $ua->request($r);
 
    if ($res->is_success) {
-      return JSON->new->utf8->decode($res->decoded_content); 
+      return JSON->new->utf8->decode($res->decoded_content);
    }
    return;
 }
@@ -115,17 +128,16 @@ Oracle::ZFSSA::Client - Oracle ZFS Storage RESTful API Connector
    $zfssa = new Oracle::ZFSSA::Client(
       user => $user,
       password => $password,
-      host => "https://your.appliance.org",
-      port => 215
+      host => "your.appliance.org"
    );
 
-   print $zfssa->call('GET','/api/storage/v1/pools');
+   $json_obj = $zfssa->call('GET','/api/storage/v1/pools');
 
 =head1 DESCRIPTION
 
 This Perl module provides a simplified means of connecting to and
 executing commands against an Oracle ZFSSA RESTful Application
-Programming Interface.
+Programming Interface. Responses are Perl C<JSON> data structures.
 
 https://docs.oracle.com/cd/E51475_01/html/E52433/index.html
 
@@ -141,8 +153,11 @@ This method creates a new C<Oracle::ZFSSA::Client> and returns it.
    password            undef (Required)
    host                undef (Required)
    port                215
+   ssl                 1
    verify_hostname     1
    debug               0
+
+ssl - Connect to the API over HTTPS.
 
 verify_hostname - Disable SSL certificate verification.
 
