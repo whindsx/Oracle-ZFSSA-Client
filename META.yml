@@ -19,6 +19,7 @@ no_index:
     - inc
 requires:
   LWP::UserAgent: '6.05'
+  JSON: '2.90'
   perl: '5.006'
 resources:
   repository: https://github.com/whindsx/Oracle-ZFSSA-Client 

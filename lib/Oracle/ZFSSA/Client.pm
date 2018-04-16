@@ -6,6 +6,7 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
+use JSON;
 
 our $VERSION = '0.01';
 
@@ -94,7 +95,7 @@ sub call {
    my $res = $ua->request($r);
 
    if ($res->is_success) {
-      return $res->decoded_content;
+      return JSON->new->utf8->decode($res->decoded_content); 
    }
    return;
 }

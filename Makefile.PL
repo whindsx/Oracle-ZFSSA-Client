@@ -19,6 +19,7 @@ WriteMakefile(
     },
     PREREQ_PM => {
         'LWP::UserAgent' => 6.05,
+        'JSON' => 2.90,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'Oracle-*' },
