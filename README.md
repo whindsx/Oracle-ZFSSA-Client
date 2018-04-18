@@ -21,5 +21,12 @@ SYNOPSIS:
 ```
 
 DEPENDENCIES:
-   - LWP::UserAgent 
+   - LWP::UserAgent
    - JSON
+
+INSTALL:
+   - Source
+      - perl Makefile.PL
+      - make
+      - make test
+      - make install
