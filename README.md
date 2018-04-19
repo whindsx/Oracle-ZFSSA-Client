@@ -17,7 +17,12 @@ SYNOPSIS:
       host => "your.appliance.org"
    );
 
-   $json_obj = $zfssa->call('GET','/api/storage/v1/pools');
+   $json_param = {
+      your => 'params',
+      but  => 'not required',
+   };
+
+   $json_result = $zfssa->call('POST','/api/storage/v1/method',$json_param);
 ```
 
 DEPENDENCIES:

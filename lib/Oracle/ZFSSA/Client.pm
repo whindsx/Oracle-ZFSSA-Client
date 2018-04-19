@@ -96,12 +96,14 @@ sub new {
 
 sub call {
 
-   my ($self,$method,$uri) = @_;
+   my ($self,$method,$uri,$json) = @_;
+
+   $json = JSON->new->utf8->encode($json) if (defined($json));
 
    my $url = $self->{url} . $uri;
    my $header = ['X-Auth-Session'   => $self->{session},
                  'Content-Type'     => 'application/json; charset=utf-8'];
-   my $r = HTTP::Request->new($method, $url, $header);
+   my $r = HTTP::Request->new($method, $url, $header, $json);
 
    my $ua = $self->{ua};
 
@@ -131,7 +133,12 @@ Oracle::ZFSSA::Client - Oracle ZFS Storage RESTful API Connector
       host => "your.appliance.org"
    );
 
-   $json_obj = $zfssa->call('GET','/api/storage/v1/pools');
+   $json_param = {
+      your => 'params',
+      but  => 'not required',
+   };
+
+   $json_result = $zfssa->call('POST','/api/storage/v1/method',$json_param)
 
 =head1 DESCRIPTION
 
