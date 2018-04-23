@@ -140,13 +140,14 @@ Oracle::ZFSSA::Client - Oracle ZFS Storage RESTful API Connector
 
    $json_result = $zfssa->call('POST','/api/storage/v1/method',$json_param)
 
+   # See ex/example.pl for more examples:
+   #     https://github.com/whindsx/Oracle-ZFSSA-Client/blob/master/ex/example.pl 
+
 =head1 DESCRIPTION
 
 This Perl module provides a simplified means of connecting to and
 executing commands against an Oracle ZFSSA RESTful Application
 Programming Interface. Responses are Perl C<JSON> data structures.
-
-https://docs.oracle.com/cd/E51475_01/html/E52433/index.html
 
 =head1 CONSTRUCTOR
 
@@ -169,6 +170,22 @@ ssl - Connect to the API over HTTPS.
 verify_hostname - Disable SSL certificate verification.
 
 debug - Turns on raw HTTP request/response output from LWP::UserAgent.
+
+=head1 METHODS
+
+There is only one c<Oracle::ZFSSA::Client> method:
+
+=head2 call
+
+   $zfssa->call('GET','/api/storage/v1/pools');
+
+The first parameter is the HTTP method, this is required.
+The second parameter is the ZFSSA API method, this is also required.
+The third and optional parameter is a hash of API parameters that will 
+become C<JSON> encoded.
+                                                                                                                          
+For more information see:
+https://docs.oracle.com/cd/E51475_01/html/E52433/index.html  
 
 =head1 AUTHOR
 
