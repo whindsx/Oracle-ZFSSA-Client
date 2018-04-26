@@ -1,6 +1,7 @@
 # Oracle-ZFSSA-Client - Oracle ZFS Storage Appliance RESTful API Connector
 
 [![Build Status](https://travis-ci.org/whindsx/Oracle-ZFSSA-Client.svg?branch=master)](https://travis-ci.org/whindsx/Oracle-ZFSSA-Client)
+[![CPAN version](https://badge.fury.io/pl/Oracle-ZFSSA-Client.svg)](http://badge.fury.io/pl/Oracle-ZFSSA-Client)
 
 A Perl module for connecting to Oracle ZFS Storage Appliance RESTful API.
 
