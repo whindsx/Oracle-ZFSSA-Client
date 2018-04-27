@@ -169,11 +169,11 @@ ssl - Connect to the API over HTTPS.
 
 verify_hostname - Disable SSL certificate verification.
 
-debug - Turns on raw HTTP request/response output from LWP::UserAgent.
+debug - Turns on raw HTTP request/response output from C<LWP::UserAgent>.
 
 =head1 METHODS
 
-There is only one c<Oracle::ZFSSA::Client> method:
+There is only one C<Oracle::ZFSSA::Client> method:
 
 =head2 call
 
