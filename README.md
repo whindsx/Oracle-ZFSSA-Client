@@ -36,3 +36,10 @@ INSTALL:
       - make
       - make test
       - make install
+
+   - cpanm
+      - cpanm Oracle::ZFSSA::Client
+
+   - CPAN shell
+      - perl -MCPAN -e shell
+      - install Oracle::ZFSSA::Client
